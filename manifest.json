@@ -23,7 +23,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.bandcamp.com/*"],
+      "matches": ["*://*.bandcamp.com/track/*"],
       "js": ["content.js"]
     }
   ],
