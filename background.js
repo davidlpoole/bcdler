@@ -25,11 +25,11 @@ browser.webRequest.onBeforeRequest.addListener(
 
 browser.runtime.onMessage.addListener(function (message) {
   if (message.type === 'trackDetails') {
-    const [trackName, albumName, artistName, url] = message.details
+    const { trackName, albumName, artistName, url } = message.details
     let fileName
 
     if (trackName && albumName && artistName) {
-      fileName = `${trackName} ${albumName}.mp3`
+      fileName = `${artistName} - ${albumName} - ${trackName}.mp3`
     }
     browser.downloads.download({
       url,
