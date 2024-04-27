@@ -1,3 +1,19 @@
+// listen for getArtistAndAlbum messages from the background script
+browser.runtime.onMessage.addListener((message) => {
+  if (message.type === 'getArtistAndAlbum') {
+    // get the artist and album name from the page title
+    const title = document.title
+    const parts = title.split(' | ')
+    const artistName = parts[0]
+    const albumName = parts[1]
+    browser.runtime.sendMessage({
+      type: 'artistAndAlbum',
+      artistName,
+      albumName,
+    })
+  }
+})
+
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener(function (message) {
   if (message.type === 'getTrackAndAlbumNames') {
