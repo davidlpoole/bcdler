@@ -6,17 +6,17 @@ function downloadAlbum() {
   console.log('Downloading album...')
   // send message to content script to get the artist and album name from page title
   browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    browser.tabs.sendMessage(tabs[0].id, { type: 'getArtistAndAlbum' })
+    browser.tabs.sendMessage(tabs[0].id, { type: 'getTracks' })
   })
 }
 
-browser.runtime.onMessage.addListener(function (message) {
-  if (message.type === 'artistAndAlbum') {
-    const { artistName, albumName } = message
-    console.log('Artist:', artistName)
-    console.log('Album:', albumName)
-  }
-})
+// browser.runtime.onMessage.addListener(function (message) {
+//   if (message.type === 'artistAndAlbum') {
+//     const { artistName, albumName } = message
+//     console.log('Artist:', artistName)
+//     console.log('Album:', albumName)
+//   }
+// })
 
 // browser.webRequest.onBeforeRequest.addListener(
 //   function (details) {
