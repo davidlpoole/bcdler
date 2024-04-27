@@ -10,9 +10,11 @@ browser.runtime.onMessage.addListener((message) => {
     console.log('Artist:', artistName)
     console.log('Album:', albumName)
 
+    // TODO: get the album artwork
+
     const track_table = document.querySelector('#track_table')
     const rows = track_table.querySelectorAll('tr')
-    console.log(rows)
+    const tracks = []
 
     for (const row of rows) {
       const track = row.querySelectorAll('td')
@@ -20,7 +22,8 @@ browser.runtime.onMessage.addListener((message) => {
       for (const cell of track) {
         switch (cell.className) {
           case 'play-col':
-            console.log(cell)
+            const playLink = cell.querySelector('.play_status')
+            trackDetails.click = () => playLink.click()
             break
           case 'track-number-col':
             trackDetails.trackNumber = parseInt(cell.innerText.trim(), 10)
@@ -31,8 +34,10 @@ browser.runtime.onMessage.addListener((message) => {
             break
         }
       }
-      console.log(trackDetails)
+      tracks.push(trackDetails)
     }
+    console.table(tracks)
+    // tracks[1].click()
 
     // browser.runtime.sendMessage({
     //   type: 'artistAndAlbum',

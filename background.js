@@ -3,7 +3,6 @@ let downloadedUrls = []
 browser.browserAction.onClicked.addListener(downloadAlbum)
 
 function downloadAlbum() {
-  console.log('Downloading album...')
   // send message to content script to get the artist and album name from page title
   browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     browser.tabs.sendMessage(tabs[0].id, { type: 'getTracks' })
