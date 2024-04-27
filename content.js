@@ -7,9 +7,6 @@ browser.runtime.onMessage.addListener((message) => {
     const artistName = parts[0]
     const albumName = parts[1]
 
-    console.log('Artist:', artistName)
-    console.log('Album:', albumName)
-
     // TODO: get the album artwork
 
     const track_table = document.querySelector('#track_table')
@@ -36,61 +33,30 @@ browser.runtime.onMessage.addListener((message) => {
       }
       tracks.push(trackDetails)
     }
-    console.table(tracks)
-    // tracks[1].click()
 
-    // browser.runtime.sendMessage({
-    //   type: 'artistAndAlbum',
-    //   artistName,
-    //   albumName,
-    // })
+    for (const track of tracks) {
+      setTimeout(() => {
+        browser.runtime
+          .sendMessage({
+            type: 'addDownloadListener',
+            trackDetails: {
+              trackNumber: track.trackNumber,
+              trackTitle: track.trackTitle,
+              artistName: track.artistName,
+              albumName: track.albumName,
+            },
+          })
+          .then((response) => {
+            console.log('Received response from background script:', response)
+            track.click()
+          })
+          .catch((error) => {
+            console.error('Error sending message:', error)
+          })
+          .finally(() => {
+            console.log('Done.', track.trackNumber, track.trackTitle)
+          })
+      }, 500 * track.trackNumber - 1)
+    }
   }
 })
-
-// // Listen for messages from the background script
-// browser.runtime.onMessage.addListener(function (message) {
-//   if (message.type === 'getTrackAndAlbumNames') {
-//     // Get the track details from the DOM
-//     const url = message.url
-//     const { trackName, albumName, artistName } = getTrackAndAlbumNames()
-
-//     // Send the track and album names to the background script
-//     browser.runtime.sendMessage({
-//       type: 'trackDetails',
-//       details: { trackName, albumName, artistName, url },
-//     })
-//   }
-// })
-
-// function getTrackAndAlbumNames() {
-//   const nameSection = document.querySelector('#name-section')
-
-//   if (nameSection) {
-//     const trackElement = nameSection.querySelector('.trackTitle')
-//     const albumElement = nameSection.querySelector('.albumTitle')
-
-//     const trackName = trackElement ? trackElement.innerText.trim() : ''
-//     const fromAlbumByArtist = albumElement ? albumElement.innerText.trim() : ''
-
-//     const { albumName, artistName } = parseArtistAlbum(fromAlbumByArtist)
-
-//     return { trackName, albumName, artistName }
-//   } else {
-//     return { trackName: '', albumName: '', artistName: '' }
-//   }
-// }
-
-// function parseArtistAlbum(fromAlbumByArtist) {
-//   if (fromAlbumByArtist.startsWith('from ')) {
-//     fromAlbumByArtist = fromAlbumByArtist.substring(5)
-//   }
-
-//   const parts = fromAlbumByArtist.split(' by ')
-//   const albumName = parts[0]
-//   const artistName = parts.slice(1).join(' by ')
-
-//   return {
-//     albumName,
-//     artistName,
-//   }
-// }

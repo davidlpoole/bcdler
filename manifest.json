@@ -10,6 +10,7 @@
   },
 
   "permissions": [
+    "runtime",
     "webRequest",
     "webRequestBlocking",
     "downloads",

@@ -9,48 +9,43 @@ function downloadAlbum() {
   })
 }
 
-// browser.runtime.onMessage.addListener(function (message) {
-//   if (message.type === 'artistAndAlbum') {
-//     const { artistName, albumName } = message
-//     console.log('Artist:', artistName)
-//     console.log('Album:', albumName)
-//   }
-// })
+// Listen for messages from the content script
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'addDownloadListener') {
+    const { trackDetails } = message
+    console.log('Adding a download listener for:', trackDetails.trackTitle)
 
-// browser.webRequest.onBeforeRequest.addListener(
-//   function (details) {
-//     if (details.url.startsWith('https://t4.bcbits.com/stream')) {
-//       if (!downloadedUrls.includes(details.url)) {
-//         downloadedUrls.push(details.url)
+    const listener = addDownloadListener(trackDetails)
 
-//         // Send a message to the content script to get the track and album names
-//         browser.tabs.query(
-//           { active: true, currentWindow: true },
-//           function (tabs) {
-//             browser.tabs.sendMessage(tabs[0].id, {
-//               type: 'getTrackAndAlbumNames',
-//               url: details.url,
-//             })
-//           }
-//         )
-//       }
-//     }
-//   },
-//   { urls: ['<all_urls>'] },
-//   ['blocking']
-// )
+    browser.webRequest.onBeforeRequest.addListener(
+      listener,
+      { urls: ['<all_urls>'] },
+      ['blocking']
+    )
 
-// browser.runtime.onMessage.addListener(function (message) {
-//   if (message.type === 'trackDetails') {
-//     const { trackName, albumName, artistName, url } = message.details
-//     let fileName
+    sendResponse({ response: 'added the listener!' })
+  }
+})
 
-//     if (trackName && albumName && artistName) {
-//       fileName = `${artistName} - ${albumName} - ${trackName}.mp3`
-//     }
-//     browser.downloads.download({
-//       url,
-//       filename: fileName || 'track.mp3',
-//     })
-//   }
-// })
+function addDownloadListener(trackDetails) {
+  let onBeforeRequestListener = (details) => {
+    console.log('downloading')
+    let fileName = `${trackDetails.artistName} - ${trackDetails.albumName} - ${trackDetails.trackTitle}.mp3`
+    if (details.url.startsWith('https://t4.bcbits.com/stream')) {
+      if (!downloadedUrls.includes(details.url)) {
+        downloadedUrls.push(details.url)
+
+        browser.downloads.download({
+          url: details.url,
+          filename: fileName || 'track.mp3',
+        })
+
+        // Remove the listener after the download has started.
+        browser.webRequest.onBeforeRequest.removeListener(
+          onBeforeRequestListener
+        )
+      }
+    }
+  }
+  return onBeforeRequestListener
+}
