@@ -3,13 +3,14 @@
   "name": "Bandcamp Downloader",
   "version": "1.0",
 
-  "description": "Automatically downloads files from a specific website when they start playing.",
+  "description": "Automatically downloads albums from Bandcamp.",
 
   "icons": {
     "48": "icons/border-48.png"
   },
 
   "permissions": [
+    "runtime",
     "webRequest",
     "webRequestBlocking",
     "downloads",
@@ -23,12 +24,12 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.bandcamp.com/track/*"],
+      "matches": ["*://*.bandcamp.com/album/*"],
       "js": ["content.js"]
     }
   ],
 
   "browser_action": {
-    "default_popup": "popup.html"
+    "default_title": "Download album"
   }
 }

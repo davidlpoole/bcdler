@@ -4,7 +4,7 @@ A Mozilla Firefox extension to download the free tracks you stream on Bandcamp s
 
 ### Usage
 
-Navigate to an individual track page and start streaming a track - the extension will automatically download the track.
+Navigate to an album page then click the extension button to download all tracks.
 
 ### Contributing
 
