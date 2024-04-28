@@ -3,14 +3,13 @@
   "name": "Bandcamp Downloader",
   "version": "1.0",
 
-  "description": "Automatically downloads albums from Bandcamp.",
+  "description": "Add a button to download albums from Bandcamp.",
 
   "icons": {
     "48": "icons/border-48.png"
   },
 
   "permissions": [
-    "runtime",
     "webRequest",
     "webRequestBlocking",
     "downloads",

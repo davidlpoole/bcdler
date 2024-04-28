@@ -1,14 +1,5 @@
 let downloadedUrls = []
 
-browser.browserAction.onClicked.addListener(downloadAlbum)
-
-function downloadAlbum() {
-  // send message to content script to get the artist and album name from page title
-  browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    browser.tabs.sendMessage(tabs[0].id, { type: 'getTracks' })
-  })
-}
-
 // Listen for messages from the content script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'addDownloadListener') {
@@ -28,6 +19,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 })
 
 function addDownloadListener(trackDetails) {
+  // add a listener for the specific track to give it the correct filename
   let onBeforeRequestListener = (details) => {
     console.log('downloading')
     let fileName = `${trackDetails.artistName} - ${trackDetails.albumName} - ${trackDetails.trackTitle}.mp3`
