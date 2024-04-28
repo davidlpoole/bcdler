@@ -4,8 +4,8 @@ browser.runtime.onMessage.addListener((message) => {
     // get the artist and album name from the page title
     const title = document.title
     const parts = title.split(' | ')
-    const artistName = parts[0]
-    const albumName = parts[1]
+    const albumName = parts[0]
+    const artistName = parts[1]
 
     // TODO: get the album artwork
 
