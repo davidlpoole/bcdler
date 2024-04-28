@@ -1,3 +1,6 @@
+const checkForButton = document.querySelector('#bcdler-download-button')
+if (checkForButton) checkForButton.remove()
+
 // inject the download button into the page
 const downloadButton = document.createElement('button')
 downloadButton.id = 'bcdler-download-button'
@@ -6,9 +9,7 @@ downloadButton.style.position = 'relative'
 downloadButton.style.marginTop = '10px'
 downloadButton.style.zIndex = '9999'
 downloadButton.addEventListener('click', getTracks)
-
-const bcdler = document.querySelector('bcdler-download-button')
-if (!bcdler) document.querySelector('#name-section').appendChild(downloadButton)
+document.querySelector('#name-section').appendChild(downloadButton)
 
 function getTracks() {
   // get the artist and album name from the page title
