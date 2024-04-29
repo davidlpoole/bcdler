@@ -22,7 +22,7 @@ function addDownloadListener(trackDetails) {
   // add a listener for the specific track to give it the correct filename
   let onBeforeRequestListener = (details) => {
     console.log('downloading')
-    let fileName = `${trackDetails.artistName} - ${trackDetails.albumName} - ${trackDetails.trackTitle}.mp3`
+    let fileName = `${trackDetails.artistName} - ${trackDetails.albumName} - ${trackDetails.trackNumber} - ${trackDetails.trackTitle}.mp3`
     if (details.url.startsWith('https://t4.bcbits.com/stream')) {
       if (!downloadedUrls.includes(details.url)) {
         downloadedUrls.push(details.url)
