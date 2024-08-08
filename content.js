@@ -13,8 +13,9 @@ document.querySelector('#name-section').appendChild(downloadButton)
 
 function getTracks() {
   // get the artist and album name from the page title
-  const title = document.title
+  const title = document.title.replace(/[/\\?%*:"<>]/g, '')
   const parts = title.split(' | ')
+
   const albumName = parts[0]
   const artistName = parts[1]
 
