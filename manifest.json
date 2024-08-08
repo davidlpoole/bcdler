@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bandcamp Downloader",
-  "version": "1.1",
+  "version": "1.2",
 
   "description": "Add a button to download albums from Bandcamp.",
 
